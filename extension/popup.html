@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>RetroHue - Philips Hue Control</title>
+	<link href='https://fonts.googleapis.com/css?family=Audiowide|Press+Start+2P' rel='stylesheet' type='text/css'>
+	<link href="app.css" rel="stylesheet" type="text/css" />
+
+	<script src="jquery.js"></script>
+	<script src="app.js"></script>
+</head>
+<body>
+		
+	<img id="logo" src="retrohue.svg" alt="RetroHue" srcset="retrohue.svg">
+	<svg preserveAspectRatio="none" id="visualizer" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<defs>
+
+			<mask id="mask">
+				<g id="maskGroup">
+				</g>
+			</mask>
+			<linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+				<stop offset="0%" style="stop-color:#ff0a0a;stop-opacity:1" />
+				<stop offset="20%" style="stop-color:#f1ff0a;stop-opacity:1" />
+				<stop offset="90%" style="stop-color:#d923b9;stop-opacity:1" />
+				<stop offset="100%" style="stop-color:#050d61;stop-opacity:1" />
+			</linearGradient>
+		</defs>
+		<rect x="0" y="0" width="100%" height="100%" fill="url(#gradient)" mask="url(#mask)"></rect>
+	</svg>
+
+	<h1>Please allow the use of your microphone</h1>
+
+	<div id="footer">
+		
+		<div class="controls glow">
+			Brightness: <input class="brightness" type="range" value="250" min="0" max="250" />
+			Saturation: <input class="saturation" type="range" value="250" min="0" max="250" />
+			Sensitivity: <input class="sensitivity" type="range" value="210" min="150" max="250" />
+			Transition Time: <input class="transitiontime" type="range" value="1" min="0" max="5" />
+		</div>
+
+		<div class="credits">
+			<div class="status"></div>
+			Implementation: <a href="https://twitter.com/yannis_kolovos">@yannis_kolovos</a>, Logo: <a href="https://twitter.com/BashaChris">@BashaChris</a>
+		</div>
+	</div>
+</body>
+</html>

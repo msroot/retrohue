@@ -1,0 +1,15 @@
+{
+	"name": "Retro Hue",
+	"version": "0.1",
+	"manifest_version" : 2,
+	"description": "Controll your Philips Hue with your computer's microphone and create schemes based on the music's melody",
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+	"browser_action": {
+		"default_icon": {
+			"32": "logo.png"
+			}},
+			"permissions": ["activeTab"]
+		}
