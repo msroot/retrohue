@@ -27,7 +27,7 @@ var hueCollection  = 65000;
 var enabled        = true;
 var bridges        = [];
 var selectedBridge = 0;
-var bridge_status  = "Philips Hue Bridge: Not Connected";
+var bridge_status  = 'Philips Hue Bridge: Not Connected';
 
 
 var	setUpRetroHue = function () {
@@ -46,12 +46,12 @@ var	setUpRetroHue = function () {
 	}).done(function() {
 		if (bridges.length > 0) {
 			authorizeUser();
-			apiBaseUrl = "http://" + internalIpAddress + "/api/" + username;
+			apiBaseUrl = `http://${internalIpAddress}/api/${username}`;
 		
 			if (username !== undefined) {
 				selectLights();
-				bridge_status = "Connected to  "+ getBridge().id +" at "+ getBridge().internalipaddress +", using "+selectedLamps.length+ " lambs";
-				$('.status').html("Philips Hue Bridge:" + bridge_status);
+				bridge_status = `Connected to ${getBridge().id} at ${getBridge().internalipaddress} , using ${selectedLamps.length} lambs`;
+				$('.status').html(`Philips Hue Bridge: ${bridge_status}`);
 			}
 		}
 		
@@ -105,14 +105,18 @@ var authorizeUser = function () {
 
 var selectLights = function () {
 	$.ajax({
-		url:  apiBaseUrl + "/lights",
-		type: "GET"
+		url:  `${apiBaseUrl}/lights`,
+		type: 'GET'
 	}).done(function(data) {
 		if (data instanceof Object) {
 			lamps = data;
 			
 			var ids = Object.keys(data);
-			alert("We found " + ids.length + " lamps in your network "+internalIpAddress+". \n Please select the lamps you want to use! \n Note: We will turn on the lamp for you if its closed");
+			alert([
+				`We found ${ids.length} lamps in your network ${internalIpAddress}.`, 
+				`Please select the lamps you want to use!`,
+				`Note: We will turn on the lamp for you if its closed`]
+				.join('\n'));
 			
 			$.each(ids, function(index, id) {
 				if (confirm("Do you want to use: " + data[id].name + " (" + data[id].modelid+" - "+data[id].type+")")) {
@@ -129,7 +133,7 @@ var selectLights = function () {
 
 
 var initializeControl = function (at) {
-	var selector = $("."+ at);
+	var selector = $(`.${at}`);
 
 	$(document).on('input', selector, function(e) {
 		window[at] = parseInt(selector.val());
@@ -143,13 +147,14 @@ var initializeControl = function (at) {
 
 var setLightState = function(lightId, lightState) {
 	if (activeRequest || !enabled || selectedLamps.length == 0 || !username) return;
-	var apiUrl = apiBaseUrl + "/lights/" + lightId + "/state";
+
+	var apiUrl = `${apiBaseUrl}/lights/${lightId}/state`;
 	activeRequest = true
 
 	$.when( 
 		$.ajax({
 			url:  apiUrl,
-			type: "PUT",
+			type: 'PUT',
 			data: JSON.stringify(lightState)
 		})).done(function() { 
 			activeRequest = false 
@@ -222,4 +227,4 @@ var setLightState = function(lightId, lightState) {
 				navigator.getUserMedia({audio:true}, soundAllowed, soundNotAllowed);				
 			});
 		});
-	});	
+	});
