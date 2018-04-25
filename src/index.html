@@ -27,7 +27,7 @@ var deviceType     = {devicetype: "RetroHue#WebClient"};
 var controls       = ['saturation', 'brightness', 'sensitivity', 'transitiontime'];
 var bridge_status  = 'Philips Hue Bridge: Not Connected';
 var transitiontime = 1;
-var sensitivity    = 210;
+var sensitivity    = 80;
 var saturation     = 250;
 var brightness     = 250;
 var activeRequest  = false;
@@ -204,12 +204,16 @@ var setLightState = function(lightId, lightState) {
 		requestAnimationFrame(doDraw);
 		analyser.getByteFrequencyData(frequencyArray);
 		var adjustedLength;
+		var fixedadjustedLength;
 		for (var i = 0 ; i < 255; i++) {
 		
 			adjustedLength = Math.floor(frequencyArray[i]) - (Math.floor(frequencyArray[i]) % 5);
-			paths[i].setAttribute('d', 'M '+ (i) +',255 l 0,-' + adjustedLength);
-
-			if (adjustedLength > sensitivity) {
+			fixedadjustedLength = Math.floor(((sensitivity / 255 ) * adjustedLength ));
+			
+			paths[i].setAttribute('d', 'M '+ (i) +',255 l 0,-' + fixedadjustedLength);
+			
+			// document.title = `${adjustedLength} > ${sensitivity} : ${(255 - sensitivity)}`
+			if (adjustedLength > (255 - sensitivity)) {
 				var id  = selectedLamps[Math.floor(Math.random() * selectedLamps.length)];
 				
 				setLightState(id, { 
@@ -232,7 +236,7 @@ var setLightState = function(lightId, lightState) {
 			$('#start').hide();
 			audioContent = new AudioContext();
 			setUpSelectors();
-			$('#footer').fadeIn("slow")
+			$('#footer').fadeIn("slow");
 			$('#logo').fadeIn("slow", function() {
 				navigator.getUserMedia({audio:true}, soundAllowed, soundNotAllowed);				
 			});
@@ -276,7 +280,7 @@ var setLightState = function(lightId, lightState) {
 			<div class="controls glow">
 				Brightness: <input class="brightness" type="range" value="250" min="0" max="250" />
 				Saturation: <input class="saturation" type="range" value="250" min="0" max="250" />
-				Sensitivity: <input class="sensitivity" type="range" value="210" min="150" max="250" />
+				Sensitivity: <input class="sensitivity" type="range" value="80" min="0" max="255" />
 				Transition Time: <input class="transitiontime" type="range" value="1" min="0" max="5" />
 			</div>
 

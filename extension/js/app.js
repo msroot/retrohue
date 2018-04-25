@@ -13,11 +13,12 @@
 		
 'use strict';
 
-var frequencyArray,internalIpAddress, apiBaseUrl,username,bridge_status,audioContent,path, paths,visualizer,mask,audioStream,analyser= null;
+var frequencyArray,internalIpAddress,apiBaseUrl,username,bridge_status,audioContent,path,paths,visualizer,mask,audioStream,analyser = null;
 var deviceType     = {devicetype: "RetroHue#WebClient"};
 var controls       = ['saturation', 'brightness', 'sensitivity', 'transitiontime'];
+var bridge_status  = 'Philips Hue Bridge: Not Connected';
 var transitiontime = 1;
-var sensitivity    = 210;
+var sensitivity    = 80;
 var saturation     = 250;
 var brightness     = 250;
 var activeRequest  = false;
@@ -27,7 +28,7 @@ var hueCollection  = 65000;
 var enabled        = true;
 var bridges        = [];
 var selectedBridge = 0;
-var bridge_status  = 'Philips Hue Bridge: Not Connected';
+
 
 
 var	setUpRetroHue = function () {
@@ -50,7 +51,7 @@ var	setUpRetroHue = function () {
 		
 			if (username !== undefined) {
 				selectLights();
-				bridge_status = `Connected to ${getBridge().id} at ${getBridge().internalipaddress} , using ${selectedLamps.length} lambs`;
+				bridge_status = `Connected to ${getBridge().id} at ${getBridge().internalipaddress}, using ${selectedLamps.length} lambs`;
 				$('.status').html(`Philips Hue Bridge: ${bridge_status}`);
 			}
 		}
@@ -87,8 +88,8 @@ var authorizeUser = function () {
 	}
 
 	$.ajax({
-		url:  "http://" + internalIpAddress + "/api",
-		type: "POST",
+		url:  `http://${internalIpAddress}/api`,
+		type: 'POST',
 		data: JSON.stringify(deviceType)
 	}).done(function(response) {
 
@@ -194,12 +195,16 @@ var setLightState = function(lightId, lightState) {
 		requestAnimationFrame(doDraw);
 		analyser.getByteFrequencyData(frequencyArray);
 		var adjustedLength;
+		var fixedadjustedLength;
 		for (var i = 0 ; i < 255; i++) {
 		
 			adjustedLength = Math.floor(frequencyArray[i]) - (Math.floor(frequencyArray[i]) % 5);
-			paths[i].setAttribute('d', 'M '+ (i) +',255 l 0,-' + adjustedLength);
-
-			if (adjustedLength > sensitivity) {
+			fixedadjustedLength = Math.floor(((sensitivity / 255 ) * adjustedLength ));
+			
+			paths[i].setAttribute('d', 'M '+ (i) +',255 l 0,-' + fixedadjustedLength);
+			
+			// document.title = `${adjustedLength} > ${sensitivity} : ${(255 - sensitivity)}`
+			if (adjustedLength > (255 - sensitivity)) {
 				var id  = selectedLamps[Math.floor(Math.random() * selectedLamps.length)];
 				
 				setLightState(id, { 
@@ -222,7 +227,7 @@ var setLightState = function(lightId, lightState) {
 			$('#start').hide();
 			audioContent = new AudioContext();
 			setUpSelectors();
-			$('#footer').fadeIn("slow")
+			$('#footer').fadeIn("slow");
 			$('#logo').fadeIn("slow", function() {
 				navigator.getUserMedia({audio:true}, soundAllowed, soundNotAllowed);				
 			});
