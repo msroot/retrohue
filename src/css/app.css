@@ -59,7 +59,7 @@ stroke-width: 0.5px;
 
 .controls{
 /*	font-size: 10px;*/
-		font-family: "Press Start 2P";
+	font-family: "Press Start 2P";
 	color:#fdfdfd;
 }
 .credits{
@@ -93,6 +93,27 @@ stroke-width: 0.5px;
   top: 0px;
 }
 
+
+#start {
+	background: transparent;
+	border: 0px;
+	cursor: pointer;
+	display: inline-block;
+	margin: 1rem;
+	max-width: 320px;
+	padding: .5rem;
+	text-shadow: 0px 0px 5px #000;
+	text-transform: uppercase;
+
+	width: 300px;
+	height: 100px;
+	font-size: 20px;
+	color: #c726a8;
+	font-family: "Press Start 2P";
+	position: absolute;
+	top: 40%;
+	left: 35%;
+}
 
 
 
