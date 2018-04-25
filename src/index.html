@@ -22,9 +22,10 @@
 		
 'use strict';
 
-var frequencyArray,internalIpAddress, apiBaseUrl,username,bridge_status,audioContent,path, paths,visualizer,mask,audioStream,analyser= null;
+var frequencyArray,internalIpAddress,apiBaseUrl,username,bridge_status,audioContent,path,paths,visualizer,mask,audioStream,analyser = null;
 var deviceType     = {devicetype: "RetroHue#WebClient"};
 var controls       = ['saturation', 'brightness', 'sensitivity', 'transitiontime'];
+var bridge_status  = 'Philips Hue Bridge: Not Connected';
 var transitiontime = 1;
 var sensitivity    = 210;
 var saturation     = 250;
@@ -36,7 +37,7 @@ var hueCollection  = 65000;
 var enabled        = true;
 var bridges        = [];
 var selectedBridge = 0;
-var bridge_status  = 'Philips Hue Bridge: Not Connected';
+
 
 
 var	setUpRetroHue = function () {
@@ -59,7 +60,7 @@ var	setUpRetroHue = function () {
 		
 			if (username !== undefined) {
 				selectLights();
-				bridge_status = `Connected to ${getBridge().id} at ${getBridge().internalipaddress} , using ${selectedLamps.length} lambs`;
+				bridge_status = `Connected to ${getBridge().id} at ${getBridge().internalipaddress}, using ${selectedLamps.length} lambs`;
 				$('.status').html(`Philips Hue Bridge: ${bridge_status}`);
 			}
 		}
@@ -96,8 +97,8 @@ var authorizeUser = function () {
 	}
 
 	$.ajax({
-		url:  "http://" + internalIpAddress + "/api",
-		type: "POST",
+		url:  `http://${internalIpAddress}/api`,
+		type: 'POST',
 		data: JSON.stringify(deviceType)
 	}).done(function(response) {
 
