@@ -51,8 +51,6 @@ var	setUpRetroHue = function () {
 		
 			if (username !== undefined) {
 				selectLights();
-				bridge_status = `Connected to ${getBridge().id} at ${getBridge().internalipaddress}, using ${selectedLamps.length} lambs`;
-				$('.status').html(`Philips Hue Bridge: ${bridge_status}`);
 			}
 		}
 		
@@ -128,6 +126,9 @@ var selectLights = function () {
 			});
 		}
 		
+		
+		bridge_status = `Connected to ${getBridge().id} at ${getBridge().internalipaddress}, using ${selectedLamps.length} lambs`;
+		$('.status').html(`Philips Hue Bridge: ${bridge_status}`);
 		
 	});
 }
