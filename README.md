@@ -37,7 +37,7 @@ Clone repo and open the `index.html` file :)
 To use it as a extension: open in Chrome `about:extensions`  and enable Developer Mode, after LOAD UNPACKED and select the extension directory
 
 ## Compatibility 
-Currently is working only with Google Chrome (Version 65.0.3325.181 (Official Build) (64-bit))
+Tested with Google Chrome (Version 66.0.3359.117 (Official Build) (64-bit))
 
 ## Credits:
 Implementation:  [@yannis_kolovos](http://twitter.com/yannis_kolovos)
